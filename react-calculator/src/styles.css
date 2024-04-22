@@ -1,0 +1,62 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-image: url('../public/desk1.png');
+    display: flex;
+    justify-content: center;
+}
+
+.calculator-grid {
+    border-radius: 30px;
+    display: grid;
+    justify-content: center;
+    margin-top: 3rem;
+    grid-template-columns: repeat(4, 5rem);
+    grid-template-rows: minmax(7rem, auto) repeat(5, 5rem);
+    background-color: black;
+    padding: 10px;
+    grid-gap: 10px;
+}
+
+.calculator-grid > button {
+    cursor: pointer;
+    border-radius: 50%;
+    border: none;
+    font-size: 2.5rem;
+    opacity: 1;
+    transition: all 0.4s;
+    width: 100%;
+    height: 100%;
+}
+
+.calculator-grid > button:hover,
+.calculator-grid > button:focus {
+    opacity: 0.5;
+    font-size: 2rem;
+}
+
+.result {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: .75rem;
+    word-wrap: break-word;
+    word-break: break-all;
+    border-bottom: 1px solid white;
+    margin-bottom: 10px;
+}
+
+.result .previous-operand {
+    color: rgba(255, 255, 255, .75);
+    font-size: 1.5rem;
+}
+
+.result .current-operand {
+    color: white;
+    font-size: 2.5rem;
+}
