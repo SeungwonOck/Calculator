@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 import DigitButton from './DigitButton';
 import OperationButton from './OperationButton';
 import "./styles.css"
@@ -7,10 +7,10 @@ import { faDeleteLeft, faClock } from '@fortawesome/free-solid-svg-icons';
 
 export const ACTIONS = {
   ADD_DIGIT: 'add-digit',
+  CHOOSE_OPERATION: 'choose-operation',
   CLEAR: 'clear',
   DELETE_DIGIT: 'delete-digit',
-  CHOOSE_OPERATION: 'choose-operation',
-  EVALUATE: 'evaluate'
+  EVALUATE: 'evaluate',
 }
 
 function reducer(state, { type, payload }) {
@@ -18,7 +18,7 @@ function reducer(state, { type, payload }) {
     case ACTIONS.ADD_DIGIT:
       if (state.overwrite) {
         return {
-          ...state,
+          ...state, 
           currentOperand: payload.digit,
           overwrite: false,
         }
@@ -67,6 +67,11 @@ function reducer(state, { type, payload }) {
         currentOperand: null
       }
     case ACTIONS.CLEAR:
+      if (state.history) {
+        return {
+          history: [...state.history]
+        }
+      }
       return {}
     case ACTIONS.DELETE_DIGIT:
       if (state.overwrite) {
@@ -91,12 +96,24 @@ function reducer(state, { type, payload }) {
         return state
       }
       
+      const expression = `${formatOperand(state.previousOperand)} ${state.operation} ${formatOperand(state.currentOperand)}`;
+      const result = evaluate(state);
+
+      const newHistory = `${expression} = ${result}`;
+
+      if (state.history) {
+        return {
+          history: [...state.history, newHistory],
+        }
+      }
+      
       return {
         ...state,
         overwrite: true,
         previousOperand: null,
         operation: null,
-        currentOperand: evaluate(state),
+        currentOperand: result,
+        history: [newHistory],
       }
   }
 
@@ -139,7 +156,12 @@ function formatOperand(operand) {
 }
 
 function App() {
-  const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(reducer, {})
+  const [{ currentOperand, previousOperand, operation, history }, dispatch] = useReducer(reducer, {})
+  const [logModal, setLogModal] = useState(false);
+
+  const toggleLogModal = () => {
+    setLogModal(!logModal);
+  }
 
   return (
     <div className="calculator-grid">
@@ -147,7 +169,7 @@ function App() {
         <div className="previous-operand">{formatOperand(previousOperand)} {operation}</div>
         <div className="current-operand">{formatOperand(currentOperand)}</div>
       </div>
-      <button onClick={() => dispatch({ type: ACTIONS.CLEAR})}>C</button>
+      <button className='red' onClick={() => dispatch({ type: ACTIONS.CLEAR})}>C</button>
       <button onClick={() => dispatch({type: ACTIONS.DELETE_DIGIT})}><FontAwesomeIcon icon={faDeleteLeft}/></button>
       <OperationButton operation="%" dispatch={dispatch}/>
       <OperationButton operation="÷" dispatch={dispatch}/>
@@ -163,12 +185,36 @@ function App() {
       <DigitButton digit="2" dispatch={dispatch}/>
       <DigitButton digit="3" dispatch={dispatch}/>
       <OperationButton operation="+" dispatch={dispatch}/>
-      <button><FontAwesomeIcon icon={faClock} /></button>
+      <button onClick={() => {toggleLogModal()}}><FontAwesomeIcon icon={faClock} /></button>
       <DigitButton digit="0" dispatch={dispatch}/>
       <DigitButton digit="." dispatch={dispatch}/>
-      <button onClick={() => dispatch({ type: ACTIONS.EVALUATE})}>=</button>
+      <button onClick={() => dispatch({ type: ACTIONS.EVALUATE })} className='btn-green'>=</button>
+      {logModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            {
+              history && history.length > 0 ? (
+                <>
+                  <h2>Calculation Record</h2>
+                  {history.map((a, i) => (
+                    <p ket={i} style={{ borderBottom: '1px solid black', padding: '10px' }}>{a}</p>      
+                    
+                  ))
+                  }
+                  <button onClick={toggleLogModal}>Close Modal</button>
+                </>
+              ) : (
+                  <>
+                  <h3>No Calculation Record Yet</h3>
+                  <button onClick={toggleLogModal}>Close Modal</button>
+                  </>
+              )
+            }
+            
+          </div>
+        </div>
+      )}
     </div>
-    
   );
 }
 
