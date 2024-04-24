@@ -98,6 +98,7 @@ body {
     padding: 10px;
     border-radius: 5px;
     border-style: none;
+    cursor: pointer;
 }
 
 .btn-red {
@@ -107,6 +108,7 @@ body {
     border-radius: 5px;
     border-style: none;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .green {
