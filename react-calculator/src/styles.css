@@ -75,14 +75,38 @@ body {
 
 .modal-content {
     background-color: white;
+    width: 370px;
+    height: 300px;
+    overflow-y: auto;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.list {
+    border-bottom: 1px solid black;
+}
+
 .btn-green {
     background-color: #02b125;
     color: white;
+}
+
+.btn-blue {
+    background-color: #066efc;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border-style: none;
+}
+
+.btn-red {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border-style: none;
+    margin-left: 10px;
 }
 
 .green {

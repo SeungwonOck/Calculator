@@ -11,6 +11,7 @@ export const ACTIONS = {
   CLEAR: 'clear',
   DELETE_DIGIT: 'delete-digit',
   EVALUATE: 'evaluate',
+  UPDATE_HISTORY: 'update-history',
 }
 
 function reducer(state, { type, payload }) {
@@ -100,12 +101,6 @@ function reducer(state, { type, payload }) {
       const result = evaluate(state);
 
       const newHistory = `${expression} = ${result}`;
-
-      if (state.history) {
-        return {
-          history: [...state.history, newHistory],
-        }
-      }
       
       return {
         ...state,
@@ -113,7 +108,12 @@ function reducer(state, { type, payload }) {
         previousOperand: null,
         operation: null,
         currentOperand: result,
-        history: [newHistory],
+        history: state.history ? [...state.history, newHistory] : [newHistory],
+      }
+    case ACTIONS.UPDATE_HISTORY:
+      return {
+        ...state,
+        history: payload,
       }
   }
 
@@ -197,16 +197,24 @@ function App() {
                 <>
                   <h2>Calculation Record</h2>
                   {history.map((a, i) => (
-                    <p ket={i} style={{ borderBottom: '1px solid black', padding: '10px' }}>{a}</p>      
+                    <div className="list">
+                      <p ket={i}>{a}
+                      <button onClick={() => {
+                        const copy = [...history]
+                        copy.splice(i, 1)
+                        dispatch({type: ACTIONS.UPDATE_HISTORY, payload: copy})
+                      }} className="btn-red">Delete</button>
+                      </p>
+                    </div>
                     
                   ))
                   }
-                  <button onClick={toggleLogModal}>Close Modal</button>
+                  <button onClick={toggleLogModal} style={{marginTop: '10px'}} className='btn-blue'>Close Modal</button>
                 </>
               ) : (
                   <>
                   <h3>No Calculation Record Yet</h3>
-                  <button onClick={toggleLogModal}>Close Modal</button>
+                  <button onClick={toggleLogModal} className='btn-blue'>Close Modal</button>
                   </>
               )
             }
