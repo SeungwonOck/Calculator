@@ -7,13 +7,14 @@ body {
     background-image: url('../public/desk1.png');
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .calculator-grid {
     border-radius: 30px;
     display: grid;
     justify-content: center;
-    margin-top: 3rem;
     grid-template-columns: repeat(4, 5rem);
     grid-template-rows: minmax(7rem, auto) repeat(5, 5rem);
     background-color: black;
@@ -116,4 +117,33 @@ body {
 }
 .red {
     color: red;
+}
+
+@media screen and (max-width: 768px) {
+    .calculator-grid {
+        border-radius: 25px;
+        grid-template-columns: repeat(4, 3.6rem);
+        grid-template-rows: minmax(5rem, auto) repeat(5, 3.6rem);
+    }
+
+    .calculator-grid > button {
+        font-size: 2rem;
+    }
+
+    .calculator-grid > button:hover,
+    .calculator-grid > button:focus {
+        font-size: 1.5rem;
+    }
+
+    .result .previous-operand{
+        font-size: 1rem;
+    }
+
+    .result .current-operand {
+        font-size: 2rem;
+    }
+    .modal-content {
+        width: 250px;
+    }
+
 }
