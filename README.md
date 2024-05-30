@@ -15,8 +15,15 @@
   
   https://github.com/SeungwonOck/react-calculator/assets/100246813/a63de808-4022-4b19-a1d3-14af4dd320ab
 <h3><strong><code>How to start</code></strong></h3>
-<ul>
-  <li>Clone the repository https://github.com/SeungwonOck/react-calculator.git</li>
-  <li>Open terminal or powerShell and go to file directory where you clone the repository</li>
-  <li>Run 'npm start' in terminal or powerShell</li>
-</ul>
+<ol>
+  <li>Start with the Local Environment
+    <ul>
+      <li>Clone the repository https://github.com/SeungwonOck/react-calculator.git</li>
+      <li>Open terminal or powerShell and go to file directory where you clone the repository</li>
+      <li>Run 'npm start' in terminal or powerShell</li>
+    </ul>
+  </li>
+  <li>Go Directly to the website
+    https://seungwonock.github.io/react-calculator
+  </li>
+</ol>
