@@ -24,6 +24,10 @@
     </ul>
   </li>
   <li>Go Directly to the website
-    https://seungwonock.github.io/react-calculator
+    <ul>
+      <li>
+        https://seungwonock.github.io/react-calculator
+      </li>
+    </ul>
   </li>
 </ol>
